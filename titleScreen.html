@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Argand Adventure - Title Screen</title> 
+<style>
+  @font-face {
+    font-family: 'titleFont';
+    src: url('fonts/titleFont.otf') format('opentype');
+  }
+
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f0f8f0;
+    color: #083c16;
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 20px 20px 20px;
+  }
+
+  #mainTitle {
+    font-family: 'titleFont', sans-serif;
+    font-size: 80px;
+    margin: 0;
+  }
+
+  .hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 40px 20px;
+  }
+
+  .hero img {
+    max-width: 300px;
+    height: auto;
+  }
+
+  .hero .blurb {
+    max-width: 500px;
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  .teacher-section {
+    background-color: #e9f3e9;
+    padding: 30px 20px;
+    text-align: center;
+  }
+
+  .teacher-section h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  .teacher-section p {
+    max-width: 700px;
+    margin: 0 auto 20px;
+    line-height: 1.5;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+  }
+
+  .menu-button {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 15px 40px;
+    cursor: pointer;
+    border: 2px solid #083c16;
+    border-radius: 8px;
+    background-color: #e9f3e9;
+    color: #083c16;
+    transition: all 0.2s ease;
+  }
+
+  .menu-button:hover {
+    background-color: #cde0c9;
+  }
+
+  .menu-button.disabled {
+    background-color: #ccc;
+    color: #888;
+    border-color: #aaa;
+    cursor: not-allowed;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #555;
+  }
+  .video-container {
+  max-width: 560px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div id="mainTitle">Argand Adventure</div>
+</header>
+
+<section class="button-container">
+  <button id="startAdventure" class="menu-button">Start Adventure</button>
+</section>
+
+<section class="hero">
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/m5yjg4IDZyI?si=ovD5CO_HWolMNSqG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+
+  <div class="blurb">
+    <h2>Welcome to Argand Adventure!</h2>
+    <p>
+      Explore the fascinating world of complex numbers while navigating through caves, forests, and fighting enemies along the way!
+      Designed to make learning about complex numbers fun for students!
+    </p>
+  </div>
+</section>
+
+<section class="teacher-section">
+  <h2>Teacher Resources</h2>
+  <p>
+    Click on the link below to download the teacher's guide for using this resource.
+  </p>
+<p><a href="resources/ArgandAdventure_TeacherGuide.pdf" target="_blank">Download the Teacher's Guide (PDF)</a></p>
+</section>
+
+
+<footer>
+</footer>
+
+<script>
+  document.getElementById('startAdventure').addEventListener('click', () => {
+    window.location.href = 'index0.html';
+  });
+</script>
+
+</body>
+</html>

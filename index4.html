@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Level 5</title>
+
+<link rel="stylesheet" href="styles/intro.css">
+<link rel="stylesheet" href="styles/guidebook.css">
+<link rel="stylesheet" href="styles/mainContent.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+<script src="scripts/popup.js"></script>
+<script src="scripts/guidebook.js"></script>
+
+
+<style>
+  @font-face {
+    font-family: 'titleFont';
+    src: url('fonts/titleFont.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  body {
+    font-family: sans-serif;
+    background: #ffffff;
+
+  }
+  h1 { margin-top: 20px; }
+  .container {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    margin-top: 40px;
+  }
+  .column { display: flex; flex-direction: column; gap: 40px; }
+
+  .circle, .wave {
+    border: 2px solid #555;
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    background: white;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .circle:hover, .wave:hover { background: #e6f4ff; transform: scale(1.03); }
+
+  .selected { border-color: #007bff; background: #dbeeff; }
+  .matched { border-color: green; background: #eaffea; cursor: default; }
+
+  #feedback {
+    margin-top: 30px;
+    font-weight: bold;
+    text-align: center;      
+    font-size: 1.2em;     
+  }
+
+  #levelComplete {
+    display:none; 
+    font-size:1.3em; 
+    margin-top:30px; 
+    color:green; 
+    font-weight: bold;
+    text-align: center;    
+  }
+
+.item-title {
+  text-align: center;  
+  font-weight: bold; 
+  margin-bottom: 10px; 
+  font-size: 1.1em;   
+}
+
+
+</style>
+</head>
+<body>
+<div id="dimmable">
+  <div id="mainWrapper">
+    <div id="mainContentInner">
+      <div id="mainContent">
+        <div id="mainTitle">Argand Adventure</div>
+        <div id="levelTitle">Level 5: Ride the Wave</div>
+        <div id="levelInfo">Match each rotating circle to the correct wave based on its size and amplitude. Click a circle or a wave first, then select its corresponding match.</div>
+        <div id="hintInfo">
+          Hint: If you are stuck use the Explorer's Guide by pressing 'H' or clicking on the book icon.
+        </div>
+
+            <div id="feedback" class="feedback-message"></div>
+    <div id="errorMsg" class="error-message"></div>
+
+    <div id="levelComplete">Congratulations! You matched all the waves!</div>
+          </div>
+    </div>
+
+
+    <div class="container">
+      <div class="column" id="circles">
+        <div class="circle" data-match="wave2" data-magnitude="3">
+          <div class="item-title">Circle A</div>
+            <img src="images/circle_medium.gif" width="150" alt="Medium circle">
+        </div>
+        <div class="circle" data-match="wave3" data-magnitude="4">
+          <div class="item-title">Circle B</div>
+            <img src="images/circle_large.gif" width="200" alt="Large circle">
+        </div>
+        <div class="circle" data-match="wave1" data-magnitude="2">
+          <div class="item-title">Circle C</div>
+            <img src="images/circle_small.gif" width="100" alt="Small circle">
+        </div>
+      </div>
+
+      <div class="column" id="waves">
+        <div class="wave" data-type="wave3" data-amplitude="4">
+          <div class="item-title">Wave 1</div>
+            <img src="images/sine_wave_4.png" width="200" alt="Large amplitude wave"><br>
+        </div>
+        <div class="wave" data-type="wave1" data-amplitude="2">
+          <div class="item-title">Wave 2</div>
+            <img src="images/sine_wave_2.png" width="200" alt="Small amplitude wave">
+        </div>
+        <div class="wave" data-type="wave2" data-amplitude="3">
+          <div class="item-title">Wave 3</div>
+            <img src="images/sine_wave_3.png" width="200" alt="Medium amplitude wave">
+        </div>
+      </div>
+    </div>
+
+    <button id="openGuidebookBtn" aria-label="Open Explorer's Guide">
+      <img src="https://cdn-icons-png.flaticon.com/128/207/207114.png" id="bookIcon" alt="Book Icon">
+    </button>
+
+    <div id="guidebookContainer"></div>
+
+    <div id="guidebookSidebar" aria-hidden="true" tabindex="-1" role="region" aria-label="Explorer's Guide">
+      <button id="closeGuidebookBtn" aria-label="Close Guidebook">&times;</button>
+      <div id="guidebookContent">
+        <h2>Explorer's Guide</h2>
+    <div id="level0Tab" class="guidebookTab" data-unlock-level="0">
+      <p>Welcome to the Argand Adventure guidebook!</p>
+          <p>Here you will find information about complex numbers and how they interact along the Argand plane.
+             As you progress through the levels, you will discover more pages of the book.
+          </p>
+          <h3>What are Complex Numbers?</h3>
+          <p>A complex number is a number that has <strong>two parts</strong>: a real part and an imaginary part. It’s written like this:</p>
+          <p style="text-align: center;"><strong>a + bi</strong></p>
+            <p><strong>a</strong> is the real part (numbers on the horizontal axis)</p>
+            <p><strong>b</strong> is the imaginary part (numbers on the vertical axis)</p>
+            <p><strong>i</strong> is the imaginary unit, defined by <em>i² = -1</em></p>
+          <p>Example: <strong>3 + 4i</strong> → Real part = 3, Imaginary part = 4</p>
+
+          <h3>Tip for Adventurers</h3>
+          <p>Think of the <strong>real part</strong> as moving left/right and the <strong>imaginary part</strong> as moving up/down on the Argand Plane. Each step in your adventure is like moving along a complex number!</p>
+    </div>
+            <div id="level1Tab" class="guidebookTab" data-unlock-level="1" style="display:none;">
+      <p>To collect key fragments you must solve addition and subtraction puzzles with complex numbers.</p>
+        <h3>Adding Complex Numbers</h3>
+        <p>To add two complex numbers, add their <strong>real parts</strong> and their <strong>imaginary parts</strong> separately:</p>
+        <p style="text-align:center;"><strong>(a + bi) + (c + di) = (a+c) + (b+d)i</strong></p>
+        <p><strong>Example:</strong> (3 + 4i) + (2 + 5i) = (3+2) + (4+5)i = 5 + 9i</p>
+        
+        <h3>Subtracting Complex Numbers</h3>
+        <p>To subtract, subtract the real parts and the imaginary parts:</p>
+        <p style="text-align:center;"><strong>(a + bi) - (c + di) = (a-c) + (b-d)i</strong></p>
+        <p><strong>Example:</strong> (6 + 7i) - (2 + 3i) = (6-2) + (7-3)i = 4 + 4i</p>
+    </div>
+
+    <div id="level2Tab" class="guidebookTab" data-unlock-level="2" style="display:none;">
+      <h3>Understanding Polar Form</h3>
+      <p>Any complex number <strong>z = a + bi</strong> can be represented in polar form as:</p>
+      <p style="text-align:center;"><strong>z = r (cos θ + i sin θ) = re<sup>iθ</sup></strong></p>
+      <ul>
+        <li><strong>r</strong> is the <em>magnitude</em> (distance from the origin)</li>
+        <li><strong>θ</strong> is the <em>argument</em> (angle from the positive real axis)</li>
+      </ul>
+
+      <h3>Step 1: Finding r</h3>
+      <p>The magnitude is found using the Pythagorean theorem:</p>
+      <p style="text-align:center;"><strong>r = √(a² + b²)</strong></p>
+      <p><strong>Example:</strong> For z = 3 + 4i, r = √(3² + 4²) = √(9 + 16) = 5</p>
+
+      <h3>Step 2: Finding θ</h3>
+      <p>The angle is found using the arctangent of the imaginary part divided by the real part:</p>
+      <p style="text-align:center;"><strong>θ = arctan(b / a)</strong></p>
+      <p><strong>Example:</strong> For z = 3 + 4i, θ = arctan(4 / 3) ≈ 0.927 radians (≈ 53.13°)</p>
+      <p>Be careful with the quadrant: if <strong>a</strong> is negative, add π to θ to get the correct direction.</p>
+
+      <h3>Step 3: Writing the Polar Form</h3>
+      <p>Once you have r and θ, you can write:</p>
+      <p style="text-align:center;"><strong>z = 5 (cos 0.927 + i sin 0.927) = 5 e<sup>i0.927</sup></strong></p>
+    </div>
+
+    <div id="level3Tab" class="guidebookTab" data-unlock-level="3" style="display:none;">
+    <p>Multiplying complex numbers in polar form combines their magnitudes and adds their angles. Repeated multiplication can create fascinating patterns, including spirals and rotations!</p>
+
+    <h3>Multiplication in Polar Form</h3>
+    <p>If <strong>z₁ = r₁ (cos θ₁ + i sin θ₁)</strong> and <strong>z₂ = r₂ (cos θ₂ + i sin θ₂)</strong>, then:</p>
+    <p style="text-align:center;"><strong>z₁ × z₂ = r₁ r₂ [cos(θ₁ + θ₂) + i sin(θ₁ + θ₂)]</strong></p>
+    <p>This means:</p>
+    <ul>
+        <li>The magnitudes multiply: <strong>r → r₁ × r₂</strong></li>
+        <li>The angles add: <strong>θ → θ₁ + θ₂</strong></li>
+    </ul>
+
+    <h3>Creating Spirals with Repeated Multiplication</h3>
+    <p>Suppose you multiply a complex number <strong>z</strong> repeatedly by the same number <strong>w = r (cos φ + i sin φ)</strong>:</p>
+    <p style="text-align:center;"><strong>z, z×w, z×w², z×w³, ...</strong></p>
+    <p>Each multiplication does two things:</p>
+    <ul>
+        <li>Scales the distance from the origin by <strong>r</strong> → if r > 1, the points move outward; if r < 1, they move inward.</li>
+        <li>Rotates the point by <strong>φ</strong> → each step adds the angle, creating a rotation pattern.</li>
+    </ul>
+
+    <h3>Example: Generating a Spiral</h3>
+    <p>Let <strong>w = 1.1 (cos 30° + i sin 30°)</strong> and start at z = 1. Repeated multiplication gives:</p>
+    <p style="text-align:center;"><strong>z, z×w, z×w², z×w³, …</strong></p>
+    <p>The points form a **spiral** that moves outward (since r = 1.1 > 1) and rotates by 30° each step.</p>
+
+    <p>Tip: By adjusting the magnitude and angle of the multiplier, you can create **shrinking spirals, expanding spirals, or pure rotations**!</p>
+    </div>
+
+    <div id="level4Tab" class="guidebookTab" data-unlock-level="4" style="display:none;">
+  <p>Rotating a point on a circle in the complex plane generates familiar wave patterns when you track its coordinates over time. This is the essence of connecting circles to sine and cosine waves!</p>
+
+  <h3>From Circles to Waves</h3>
+  <p>Consider a point moving around a circle of radius <strong>r</strong> at a constant angular speed <strong>θ</strong>:</p>
+  <p style="text-align:center;"><strong>z = r (cos θ + i sin θ)</strong></p>
+  <p>If we plot the <strong>real part</strong> (cos θ) over time, we get a **cosine wave**. If we plot the <strong>imaginary part</strong> (sin θ), we get a **sine wave**.</p>
+
+  <h3>Cosine Waves</h3>
+  <ul>
+    <li>The point starts at the **rightmost** position on the circle.</li>
+    <li>Real part (x-coordinate) → <strong>cos θ</strong></li>
+    <li>Wave starts at its **maximum** value (r).</li>
+  </ul>
+
+  <h3>Sine Waves</h3>
+  <ul>
+    <li>The point starts at the **top** of the circle.</li>
+    <li>Imaginary part (y-coordinate) → <strong>sin θ</strong></li>
+    <li>Wave starts at **zero** and rises as the point moves clockwise.</li>
+  </ul>
+
+  <h3>Phase Shifts</h3>
+  <p>Starting the point at different positions on the circle shifts the wave horizontally. For example, starting at the top gives a sine wave, starting at the right gives a cosine wave, and other positions produce **phase-shifted waves**.</p>
+
+  <h3>Visual Connection</h3>
+  <ul>
+    <li>Each full rotation around the circle corresponds to **one full wave cycle**.</li>
+    <li>The radius of the circle sets the **amplitude** of the wave.</li>
+    <li>The speed of rotation sets the **frequency** of the wave.</li>
+  </ul>
+
+  <p>Tip: Understanding this relationship is key in **signal processing, physics, and engineering**, where circular motion and waves are deeply connected!</p>
+</div>
+  </div>
+  
+  <div id="guidebookNav">
+          <button class="guidebookTabBtn" data-target-tab="level0Tab" data-unlock-level="0">Introduction</button>
+          <button class="guidebookTabBtn" data-target-tab="level1Tab" data-unlock-level="1">Addition & Subtraction</button>
+          <button class="guidebookTabBtn" data-target-tab="level2Tab" data-unlock-level="2">Polar Form</button>
+          <button class="guidebookTabBtn" data-target-tab="level3Tab" data-unlock-level="3">Multiplication</button>
+          <button class="guidebookTabBtn" data-target-tab="level4Tab" data-unlock-level="4">Waves</button>
+        </div>
+</div>
+</div>
+</div>
+
+<div id="introPopup">
+  <div id="introContent">
+    <p>Following the wizard's clue, you travelled to the ocean and found a mystical boat that will let you leave the argand plane.</p>
+    <button id="closeIntroBtn">Continue</button>
+  </div>
+</div>
+
+  <div id="introPopup2">
+    <div id="introContent2">
+      <p>To escape you must understand how complex numbers relate to waves. Match each circle up with its corresponding wave.</p>
+      <p></p>
+      <button id="closeIntroBtn2">Begin</button>
+    </div>
+  </div>
+
+<script>
+let selectedCircle = null;
+let selectedWave = null;
+let matchedCount = 0;
+const highlightColors = [
+  '#a6f0a6', 
+  '#66c966', 
+  '#338833' 
+];
+let matchIndex = 0;
+
+
+document.querySelectorAll('.circle').forEach(circle => {
+  circle.addEventListener('click', () => {
+    if (circle.classList.contains('matched')) return;
+
+    circle.classList.toggle('selected'); 
+    selectedCircle = circle.classList.contains('selected') ? circle : null;
+
+    if (selectedCircle && selectedWave) checkMatch();
+  });
+});
+
+
+document.querySelectorAll('.wave').forEach(wave => {
+  wave.addEventListener('click', () => {
+    if (wave.classList.contains('matched')) return;
+
+    wave.classList.toggle('selected');
+    selectedWave = wave.classList.contains('selected') ? wave : null;
+
+    if (selectedCircle && selectedWave) {
+      checkMatch();
+    }
+  });
+});
+
+
+function checkMatch() {
+  const feedback = document.getElementById('feedback');
+
+  const circleMag = parseFloat(selectedCircle.dataset.magnitude);
+  const waveAmp = parseFloat(selectedWave.dataset.amplitude);
+
+  if (circleMag === waveAmp) {
+    feedback.textContent = 'Correct!';
+    feedback.style.color = 'green';
+
+    const color = highlightColors[matchIndex % highlightColors.length];
+    selectedCircle.style.backgroundColor = color;
+    selectedWave.style.backgroundColor = color;
+
+    selectedCircle.classList.add('matched');
+    selectedWave.classList.add('matched');
+
+    matchIndex++;
+    matchedCount++;
+    
+    if (matchedCount === 3) {
+      setTimeout(() => {
+        document.getElementById('levelComplete').style.display = 'block';
+      }, 1500);
+      setTimeout(() => window.location.href = 'finalScreen.html', 4500);
+    }
+
+  } else {
+    feedback.textContent = 'Try again!';
+    feedback.style.color = 'red';
+  }
+
+  selectedCircle?.classList.remove('selected');
+  selectedWave?.classList.remove('selected');
+  selectedCircle = null;
+  selectedWave = null;
+}
+
+document.getElementById("closeIntroBtn").addEventListener("click", () => {
+  document.getElementById("introPopup").style.display = "none";
+
+  const intro2 = document.getElementById("introPopup2");
+  if (intro2) {
+    intro2.style.display = "flex"; 
+  }
+});
+
+const intro2 = document.getElementById("introPopup2");
+if (intro2 && document.getElementById("closeIntroBtn2")) {
+  document.getElementById("closeIntroBtn2").addEventListener("click", () => {
+    intro2.style.display = "none";
+  });
+}
+
+
+const canvas = document.createElement('canvas');
+canvas.id = 'connectionCanvas';
+canvas.style.position = 'absolute';
+canvas.style.top = '0';
+canvas.style.left = '0';
+canvas.style.pointerEvents = 'none';
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+document.body.appendChild(canvas);
+
+const ctx = canvas.getContext('2d');
+const previousLines = [];
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  redrawAllLines();
+});
+
+function animateConnection(startElem, endElem) {
+  const rect1 = startElem.getBoundingClientRect();
+  const rect2 = endElem.getBoundingClientRect();
+
+  const startX = rect1.right; 
+  const startY = rect1.top + rect1.height / 2;
+
+  const endX = rect2.left;
+  const endY = rect2.top + rect2.height / 2;
+
+  let progress = 0;
+  const duration = 800;
+  const startTime = performance.now();
+
+  function drawFrame(currentTime) {
+    const elapsed = currentTime - startTime;
+    progress = Math.min(elapsed / duration, 1);
+
+    const currentX = startX + (endX - startX) * progress;
+    const currentY = startY + (endY - startY) * progress;
+
+    redrawAllLines();
+    drawMaskedLine(startX, startY, currentX, currentY);
+
+    if (progress < 1) {
+      requestAnimationFrame(drawFrame);
+    } else {
+      previousLines.push({ startX, startY, endX, endY });
+      redrawAllLines();
+    }
+  }
+
+  requestAnimationFrame(drawFrame);
+}
+
+function drawMaskedLine(x1, y1, x2, y2) {
+  ctx.save();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = 'green';
+  ctx.lineCap = 'round';
+
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+
+  ctx.globalCompositeOperation = 'destination-out';
+  document.querySelectorAll('.circle, .wave').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const radius = Math.max(rect.width, rect.height) / 2 + 10; 
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  ctx.restore();
+}
+
+function redrawAllLines() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  previousLines.forEach(line => {
+    drawMaskedLine(line.startX, line.startY, line.endX, line.endY);
+  });
+}
+</script>
+</body>
+</html>

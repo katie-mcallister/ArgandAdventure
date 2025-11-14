@@ -1,0 +1,184 @@
+@font-face {
+      font-family: 'titleFont';
+      src: url('fonts/titleFont.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    #mainTitle {
+      text-align: center;
+      font-size: 60px;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-family: 'titleFont', sans-serif;
+      color: #083c16;
+    }
+    #levelTitle {
+      text-align: center;
+      font-size: 35px;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-family: 'Arial', sans-serif;
+      color: #000000;
+    }
+    #levelInfo {
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin: 0 auto;
+      font-family: 'Arial', sans-serif;
+      color: #000000;
+      max-width: 600px;
+    }
+    #hintInfo {
+      text-align: center;
+      font-size: 10px;
+      font-weight: bold;
+      margin-top: 10px;
+      font-family: 'Arial', sans-serif;
+      color: #7a1212;
+    }
+    canvas {
+      display: block;      
+      margin: 0 auto;     
+    }
+    
+    #overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 1050;
+    }
+    #questionText {
+      font-size: 22px;
+      font-weight: bold; 
+    }
+    #questionPopup {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.3s ease;
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      display: none;
+      z-index: 1100;
+      width: 450px;
+      font-family: sans-serif;
+      box-sizing: border-box;
+      text-align: center;
+      
+    }
+    #questionPopup input[type="text"] {
+      width: 90%;
+      font-size: 16px;
+      padding: 5px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    #questionPopup button {
+      padding: 8px 15px;
+      margin: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+    }
+    #questionPopup.shifted {
+  transform: translate(-50%, -50%) translateX(-200px);
+}
+
+    #errorMsg {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+      height: 0;
+      overflow: hidden;
+      transition: height 0.3s ease;
+    }
+    #popupTitle {
+      font-weight: bold;
+      font-size: 40px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    #closePopupBtn {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #333;
+      line-height: 1;
+      padding: 0;
+    }
+    #closePopupBtn:hover {
+      color: #f00;
+    }
+    #submitContainer {
+      text-align: center;
+      margin-top: 10px; 
+    }#answerSection {
+      display: flex;
+      flex-direction: column;
+      align-items: center; 
+      gap: 2px; 
+      margin-top: 10px;
+      width: 100%;
+    }
+    #answerInput {
+      width: 200px !important;
+      max-width: 100%;       
+      font-size: 16px;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+    #submitAnswer {
+      padding: 8px 15px;
+      font-size: 14px;
+      cursor: pointer;
+      width: fit-content; 
+    }
+
+
+#mainContent {
+  max-width: calc(100% - 400px); 
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+}
+
+#mainContent.shifted {
+  transform: translateX(-220px);
+}
+
+.sqrt-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px; 
+}
+
+.sqrt-wrapper::before {
+  content: "√";
+  font-size: 20px;
+  line-height: 1;
+}
+
+.sqrt-wrapper input {
+  width: 30px;
+  font-size: 16px;
+  text-align: center;
+  padding-left: 0;
+  box-sizing: border-box;
+}
+
+.sqrt-wrapper::after {
+  content: "";
+  display: none;
+}

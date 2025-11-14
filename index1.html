@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Level 2</title>
+
+  <link rel="stylesheet" href="styles/intro.css">
+  <link rel="stylesheet" href="styles/guidebook.css">
+  <link rel="stylesheet" href="styles/mainContent.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+
+  <script src="scripts/globals.js"></script>
+  <script src="scripts/generateTreasures.js"></script> 
+  <script src="scripts/askQuestion.js"></script>
+  <script src="scripts/getTreasureAtMouse.js"></script>  
+  <script src="scripts/game.js"></script>
+  <script src="scripts/generateObjects.js"></script>
+  <script src="scripts/popup.js"></script>
+  <script src="scripts/submitCancelAnswer.js"></script>
+  <script src="scripts/guidebook.js"></script>
+
+  <style>
+    @font-face {
+      font-family: 'titleFont';
+      src: url('fonts/titleFont.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
+</head>
+<body>
+  <div id="dimmable">
+    <div id="mainWrapper">
+      <div id="mainContentInner">
+        <div id="mainContent">
+          <div id="mainTitle">Argand Adventure</div>
+          <div id="levelTitle">Level 2: Fragment Forest</div>
+          <div id="levelInfo">Collect all three key fragments to unlock the entrance to the wizard's tower. Complete an addition or subtraction puzzle to obtain a fragment!</div>
+          <div id="hintInfo">Hint: If you are stuck use the Explorer's Guide by pressing 'H' or clicking on the book icon.</div>
+        </div>
+      </div>
+      <div id="overlay"></div>
+
+  <div id="questionPopup">
+    <button id="closePopupBtn" title="Close" aria-label="Close popup">&times;</button>
+    <div id="questionText"></div>
+    <div id="treasureCountDisplay"></div>
+    <div id="feedbackMsg"></div>
+    <div id="answerSection">
+      <input type="text" id="answerInput" placeholder="Enter answer (e.g. 3 + 4i)">
+      <div id="feedbackMsg" class="feedback-message"></div>
+      <div id="errorMsg" class="error-message"></div>
+      <button type="button" id="submitAnswer">Enter</button>
+    </div>
+  </div>
+
+      <button id="openGuidebookBtn" aria-label="Open Explorer's Guide">
+        <img src="https://cdn-icons-png.flaticon.com/128/207/207114.png" id="bookIcon" alt="Book Icon">
+      </button>
+
+      <div id="guidebookSidebar" aria-hidden="true" tabindex="-1" role="region" aria-label="Explorer's Guide">
+        <button id="closeGuidebookBtn" aria-label="Close Guidebook">&times;</button>
+
+  <div id="guidebookContent">
+    <h2>Explorer's Guide</h2>
+    <div id="level0Tab" class="guidebookTab" data-unlock-level="0">
+      <p>Welcome to the Argand Adventure guidebook!</p>
+          <p>Here you will find information about complex numbers and how they interact along the Argand plane.
+             As you progress through the levels, you will discover more pages of the book.
+          </p>
+          <h3>What are Complex Numbers?</h3>
+          <p>A complex number is a number that has <strong>two parts</strong>: a real part and an imaginary part. It’s written like this:</p>
+          <p style="text-align: center;"><strong>a + bi</strong></p>
+            <p><strong>a</strong> is the real part (numbers on the horizontal axis)</p>
+            <p><strong>b</strong> is the imaginary part (numbers on the vertical axis)</p>
+            <p><strong>i</strong> is the imaginary unit, defined by <em>i² = -1</em></p>
+          <p>Example: <strong>3 + 4i</strong> → Real part = 3, Imaginary part = 4</p>
+
+          <h3>Tip for Adventurers</h3>
+          <p>Think of the <strong>real part</strong> as moving left/right and the <strong>imaginary part</strong> as moving up/down on the Argand Plane. Each step in your adventure is like moving along a complex number!</p>
+
+    </div>
+
+    <div id="level1Tab" class="guidebookTab" data-unlock-level="1" style="display:none;">
+      <p>To collect key fragments you must solve addition and subtraction puzzles with complex numbers.</p>
+        <h3>Adding Complex Numbers</h3>
+        <p>To add two complex numbers, add their <strong>real parts</strong> and their <strong>imaginary parts</strong> separately:</p>
+        <p style="text-align:center;"><strong>(a + bi) + (c + di) = (a+c) + (b+d)i</strong></p>
+        <p><strong>Example:</strong> (3 + 4i) + (2 + 5i) = (3+2) + (4+5)i = 5 + 9i</p>
+        
+        <h3>Subtracting Complex Numbers</h3>
+        <p>To subtract, subtract the real parts and the imaginary parts:</p>
+        <p style="text-align:center;"><strong>(a + bi) - (c + di) = (a-c) + (b-d)i</strong></p>
+        <p><strong>Example:</strong> (6 + 7i) - (2 + 3i) = (6-2) + (7-3)i = 4 + 4i</p>
+    </div>
+
+  </div>
+        <div id="guidebookNav">
+          <button class="guidebookTabBtn" data-target-tab="level0Tab" data-unlock-level="0">Introduction</button>
+          <button class="guidebookTabBtn" data-target-tab="level1Tab" data-unlock-level="1">Addition & Subtraction</button>
+        </div>
+</div>
+</div>
+</div>
+
+  <div id="introPopup">
+    <div id="introContent">
+      <p>After escaping the cave you have found yourself in a forest with a castle looming in the distance.</p> 
+      <p>You travel to the castle and cannot enter however you can see a shimmer in the bushes nearby.</p>
+      <button id="closeIntroBtn">Continue</button>
+    </div>
+  </div>
+
+  <div id="introPopup2">
+    <div id="introContent2">
+      <p>The wizard has cast a spell on you blocking movement, you must now use the mouse to click on the key fragments.
+         You also notice a new page has appeared in the Explorer's Guide.</p>
+      <p>You must collect all 3 key fragments to enter the castle by adding and subtracting complex numbers.</p> 
+      <button id="closeIntroBtn2">Begin</button>
+    </div>
+  </div>
+
+  <div id="levelCompletePopup" style="display:none;">
+  <div id="levelCompleteContent">
+    <h2>Congratulations</h2>
+    <p>You have unlocked the door to the tower</p>
+    <button id="continueBtn">Continue</button>
+  </div>
+</div>
+</body>
+
+<script>
+function generateGrassBlades(gridSize, scale, bladesPerSquare) {
+  grassBlades = [];
+  const minX = -gridSize * scale;
+  const maxX = gridSize * scale;
+  const minY = -gridSize * scale;
+  const maxY = gridSize * scale;
+  
+  const margin = scale / 4;
+
+  for (let x = -gridSize; x <= gridSize; x++) {
+    for (let y = -gridSize; y <= gridSize; y++) {
+      let clusterX = x * scale + random(-scale / 4, scale / 4);
+      let clusterY = -y * scale + random(-scale / 4, scale / 4);
+
+      clusterX = constrain(clusterX, minX + margin, maxX - margin);
+      clusterY = constrain(clusterY, minY + margin, maxY - margin);
+
+      for (let i = 0; i < bladesPerSquare; i++) {
+        let bladeX = clusterX + random(-scale / 8, scale / 8);
+        let bladeY = clusterY + random(-scale / 8, scale / 8);
+
+        bladeX = constrain(bladeX, minX + margin, maxX - margin);
+        bladeY = constrain(bladeY, minY + margin, maxY - margin);
+
+        grassBlades.push({
+          x: bladeX,
+          y: bladeY,
+          height: random(6, 12),
+          angle: random(-PI / 8, PI / 8),
+          hue: random(100, 140),   
+          saturation: random(60, 90),
+          brightness: random(40, 80)
+        });
+      }
+    }
+  }
+}
+
+function drawGrass() {
+  colorMode(HSB, 360, 100, 100);
+  
+  for (let blade of grassBlades) {
+    push();
+    translate(blade.x, blade.y);
+    rotate(blade.angle);
+    
+    stroke(blade.hue, blade.saturation, blade.brightness * 0.6);
+    strokeWeight(1.5);
+    line(0, 0, 0, -blade.height);
+    
+    stroke(blade.hue, blade.saturation, min(blade.brightness * 1.2, 100));
+    strokeWeight(0.7);
+    line(0, -blade.height * 0.4, 0, -blade.height);
+    
+    pop();
+  }
+  
+  colorMode(RGB);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Congratulations!</title>
+<style>
+  @font-face {
+    font-family: 'titleFont';
+    src: url('fonts/titleFont.otf') format('opentype');
+  }
+
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f0f8ff;
+    color: #083c16;
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 20px 20px 20px;
+  }
+
+  #mainTitle {
+    font-family: 'titleFont', sans-serif;
+    font-size: 80px;
+    margin: 0;
+  }
+
+  .hero {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    flex-wrap: wrap;
+    padding: 40px 20px;
+  }
+
+  .left-section, .right-section {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+  }
+
+  .left-section h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+  }
+
+  .left-section p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  .resource-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 27px;
+  }
+
+  .resource-links a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+
+  .resource-links a:hover {
+    text-decoration: underline;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+  }
+
+  .menu-button {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 15px 40px;
+    cursor: pointer;
+    border: 2px solid #083c16;
+    border-radius: 8px;
+    background-color: #e9f3e9;
+    color: #083c16;
+    transition: all 0.2s ease;
+  }
+
+  .menu-button:hover {
+    background-color: #cde0c9;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #555;
+  }
+
+  .feedback-section {
+  background-color: #e9f3e9;
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 40px;
+}
+
+.feedback-section h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.feedback-section p {
+  max-width: 700px;
+  margin: 0 auto 25px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div id="mainTitle">Argand Adventure</div>
+</header>
+
+<section class="hero">
+  <div class="left-section">
+    <h2 style="text-align: center;">Congratulations!</h2>
+    <p>
+      You’ve successfully completed <strong>Argand Adventure</strong>!  
+      You’ve explored the fascinating world of complex numbers, learned how to visualize them,  
+      and solved puzzles across the Argand plane.
+    </p>
+    <p>
+      To keep exploring complex numbers and their uses in our world, click on any of the resources to the right.
+    </p>
+    <p>
+      Share your thoughts on <strong>Argand Adventure</strong> in a quick form.
+    </p>
+    <p  style="text-align: center;"><a href="https://forms.gle/rbtqQSHhCFmcMisC6" target="_blank">Complete feedback form</a></p>
+</div>
+
+  <div class="right-section">
+    <h3 style="padding-top: 20px; text-align: center;">Learn more about complex numbers!</h3>
+    <div class="resource-links">
+      <a href="https://entechonline.com/unleashing-complex-numbers-in-real-life-applications-from-engineering-to-quantum-physics/" target="_blank">Complex number real world applications</a>
+      <a href="https://s3.amazonaws.com/illustrativemathematics/illustration_pdfs/000/001/689/original/illustrative_mathematics_1689.pdf?1390751019" target="_blank">Powers of a complex number</a>
+      <a href="https://www.youtube.com/watch?v=lo3FbUm9Hs0" target="_blank">Solving geometric problems with complex numbers</a>
+    </div>
+  </div>
+</section>
+
+<section class="button-container">
+  <button id="playAgain" class="menu-button">Play Again</button>
+  <button id="resources" class="menu-button">Title Screen</button>
+</section>
+
+
+<script>
+  document.getElementById('playAgain').addEventListener('click', () => {
+    window.location.href = 'index0.html';
+  });
+
+  document.getElementById('resources').addEventListener('click', () => {
+    window.location.href = 'titleScreen.html';
+  });
+</script>
+
+</body>
+</html>
