@@ -3,6 +3,7 @@ let bushes = [];
 let trees = [];
 let rocks = [];
 let snowTrees = [];
+let sand = [];
 
 let connectAnimationProgress = 0;   
 let connectingTreasures = false;   
@@ -60,3 +61,7 @@ let towerPulseStart = null;
 let towerPulseDuration = 4000;
 let towerPulseAmplitudeMax = 0.2;  
 let isTowerPulsing = false;
+
+let conceptQuestionAnswered = false; 
+
+

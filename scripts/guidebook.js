@@ -1,5 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   const guidebookSidebar = document.getElementById('guidebookSidebar');
+  guidebookSidebar.addEventListener('wheel', (e) => {
+  const atTop = guidebookSidebar.scrollTop === 0;
+  const atBottom = guidebookSidebar.scrollHeight - guidebookSidebar.scrollTop === guidebookSidebar.clientHeight;
+
+  // Prevent page scroll ONLY when guidebook can scroll further
+  if (!atTop && e.deltaY < 0) {
+    e.stopPropagation();
+  }
+  if (!atBottom && e.deltaY > 0) {
+    e.stopPropagation();
+  }
+});
+
   const mainContent = document.getElementById('mainContent');
   const openGuidebookBtn = document.getElementById('openGuidebookBtn');
   const closeGuidebookBtn = document.getElementById('closeGuidebookBtn');
@@ -28,7 +41,6 @@ function toggleGuidebook() {
     openGuidebookBtn.classList.add('hidden');
     guidebookSidebar.setAttribute('aria-hidden', 'false');
     mainContent.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = 'hidden'; 
 
     if (questionPopup && questionPopup.style.display === "block") {
       questionPopup.classList.add('shifted');

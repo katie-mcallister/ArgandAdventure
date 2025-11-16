@@ -1,4 +1,6 @@
 function getTreasureAtMouse(mx, my) {
+  if (levelNumber === 3 && conceptQuestionAnswered) return null;
+
   const x = mx - width / 2;
   const y = my - height / 2;
 

@@ -145,13 +145,23 @@ if (levelNumber === 3) {
         btn.addEventListener("click", () => {
             const userChoice = btn.getAttribute("data-answer");
 
+
 if (userChoice === "same") {
     feedbackMsg.style.display = "block";
     feedbackMsg.style.color = "green";
-    feedbackMsg.textContent = "Correct! Multiplying by the same number each time creates the spiral.";
+    feedbackMsg.textContent = "Correct!";
     errorMsg.textContent = "";
     treasuresCollected = treasures.length;
-    waitingForAnswer = false;
+    waitingForAnswer = true;
+    conceptQuestionAnswered = true;
+
+    conceptButtons.forEach(b => b.style.display = "none");
+    
+    const submitBtn = document.getElementById("submitAnswer");
+    if (submitBtn) submitBtn.style.display = "none";
+
+    const answerInput = document.getElementById("answerInput");
+    if (answerInput) answerInput.style.display = "none";
 
     connectionOrder = treasures.map(t => ({ x: t.re * scale, y: -t.im * scale }));
     connectAnimationProgress = 0;
@@ -160,7 +170,7 @@ if (userChoice === "same") {
     setTimeout(() => {
         closePopup();
         connectingTreasures = true;  
-    }, 1000);
+    }, 1500);
 
             } else {
                 errorMsg.textContent = "Not quite — think about multiplying by the same factor repeatedly.";
@@ -263,36 +273,48 @@ function drawTreasures() {
 
   if (!treasureImg) return;
 
-  let hoveredTreasureIndex = null;
+  let mouseOverAnyTreasure = false;
+  if (typeof getTreasureAtMouse === "function") {
+    const hovered = getTreasureAtMouse(mouseX, mouseY);
+    if (hovered !== null) mouseOverAnyTreasure = true;
+  }
 
   push();
   imageMode(CENTER);
 
-  for (let i = 0; i < treasures.length; i++) {
-    const t = treasures[i];
-    if (!t) continue;
-    const tx = t.re * scale;
-    const ty = -t.im * scale;
+ for (let i = 0; i < treasures.length; i++) {
+  const t = treasures[i];
+  if (!t) continue;
+  const tx = t.re * scale;
+  const ty = -t.im * scale;
 
-    push();
+  push();
 
-    if (levelNumber >= 1 && typeof getTreasureAtMouse === "function" && getTreasureAtMouse(mouseX, mouseY) === i) {
-      hoveredTreasureIndex = i;
-
-      if (levelNumber === 2) tint(145, 217, 217); 
-      else if (levelNumber === 1) tint(255, 255, 0); 
-      else if (levelNumber === 3) tint(255, 255, 150); 
-
+  if (levelNumber === 3 && conceptQuestionAnswered) {
+    tint(255);           // no hover effect
+    image(treasureImg, tx, ty, 48, 48);
+  } else if (levelNumber === 3 && !conceptQuestionAnswered) {
+    if (mouseOverAnyTreasure) tint(255, 220, 150);
+    else tint(255);
+    image(treasureImg, tx, ty, 52, 52);
+  } else {
+    // existing hover logic for other levels
+    if (typeof getTreasureAtMouse === "function" && getTreasureAtMouse(mouseX, mouseY) === i) {
+      if (levelNumber === 2) tint(145, 217, 217);
+      else if (levelNumber === 1) tint(255, 255, 0);
       image(treasureImg, tx, ty, 60, 60);
-
     } else {
       tint(255);
       image(treasureImg, tx, ty, 48, 48);
     }
-     pop();
   }
+
   pop();
 }
+
+  pop();
+}
+
 
 function draw() {
   let hoveringOverTreasure = false;
@@ -394,7 +416,7 @@ function draw() {
     for (let i = 0; i < connectionOrder.length - 1; i++) {
       const start = connectionOrder[i], end = connectionOrder[i+1];
       const alpha = 150 + 100 * sin(pulseOffset + i);
-      stroke(255, 200, 0, alpha);
+      stroke(255, 200, 155, alpha);
       line(start.x, start.y, end.x, end.y);
     }
 
@@ -412,10 +434,25 @@ function draw() {
       line(start.x, start.y, currX, currY);
     }
 
-    if (connectAnimationProgress >= 1) {
-      connectingTreasures = false;
-      setTimeout(() => { window.location.href = "index4.html"; }, 500);
+if (connectAnimationProgress >= 1) {
+    connectingTreasures = false;
+
+    const levelCompletePopup = document.getElementById("levelCompletePopup");
+    if (levelCompletePopup) {
+        levelCompletePopup.style.display = "flex";
+        dimContent();
+        document.body.style.overflow = "hidden"; 
+        const continueBtn = document.getElementById("continueBtn");
+        if (continueBtn) {
+            continueBtn.replaceWith(continueBtn.cloneNode(true));
+            const newContinueBtn = document.getElementById("continueBtn");
+            newContinueBtn.addEventListener("click", () => {
+                window.location.href = "index4.html";
+            });
+        }
     }
+}
+
     pop();
   }
 
@@ -499,6 +536,7 @@ function draw() {
 }
 
 function mousePressed() {
+  if (levelNumber === 3 && conceptQuestionAnswered) return;
   if (levelNumber === 0) return;
 
   if (!treasureClickEnabled || isPopupOpen) return; 
@@ -542,7 +580,7 @@ function drawGridSquares() {
   }
 
   else if (levelNumber === 3) {
-    fill(247, 250, 195);
+    fill(247, 226, 147);
   }
 
   rectMode(CORNER);

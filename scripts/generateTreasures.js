@@ -69,16 +69,22 @@ else if (levelNumber === 2) {
 else if (levelNumber === 3) {
   treasures = [];
 
-  let angle = 0;            
-  let radius = 0.8;         
-  const growth = 1.2; 
-  const step = 35;         
+  let angle = 0;       
+  let radius = 0.8;      
+  const growth = 1.2;     
+  const step = 35;          
   const rotation = 315;    
+
+  let firstRe = radius * Math.cos(radians(rotation));
+  let firstIm = radius * Math.sin(radians(rotation));
+
+  const shiftRe = 1 - firstRe;
+  const shiftIm = 1 - firstIm;
 
   for (let i = 0; i < n; i++) {
     const theta = radians(angle + rotation);
-    const re = radius * Math.cos(theta);
-    const im = radius * Math.sin(theta);
+    const re = radius * Math.cos(theta) + shiftRe;
+    const im = radius * Math.sin(theta) + shiftIm;
     treasures.push({ re, im });
 
     angle += step;

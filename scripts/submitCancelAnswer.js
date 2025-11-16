@@ -69,56 +69,68 @@ function submitAnswer() {
       return;
     }
 
-    if (levelNumber === 1) {
-      if (userRe === currentCorrectRe && userIm === currentCorrectIm) {
-        feedbackMsg.style.display = "block";
-        feedbackMsg.style.color = "green";
-        feedbackMsg.textContent = "Correct!";
+if (levelNumber === 1) {
+  if (userRe === currentCorrectRe && userIm === currentCorrectIm) {
+    feedbackMsg.style.display = "block";
+    feedbackMsg.style.color = "green";
+    feedbackMsg.textContent = "Correct!";
 
-        inputEl.style.display = "none";
-        document.getElementById("submitAnswer").style.display = "none";
+    inputEl.style.display = "none";
+    document.getElementById("submitAnswer").style.display = "none";
 
-        if (currentTreasureIndex !== null) {
-          const treasure = treasures[currentTreasureIndex];
-          setTimeout(() => {
-            movePlayerSmoothly(treasure.re, treasure.im, 500);
-            setTimeout(() => {
-              const idx = treasures.indexOf(treasure);
-              if (idx !== -1) treasures.splice(idx, 1);
-              treasuresCollected++;
-              treasureClickEnabled = true;
-              waitingForAnswer = true;
-              closePopup();
-            }, 550);
-          }, 800);
-        } else {
-          towerCompleted = true;
-          waitingForAnswer = false;
-          isPopupOpen = false;
-          treasureClickEnabled = false;
+    if (currentTreasureIndex !== null) {
+      const treasure = treasures[currentTreasureIndex];
 
-          const levelCompletePopup = document.getElementById("levelCompletePopup");
-          if (levelCompletePopup) {
-            levelCompletePopup.style.display = "flex";
-            dimContent();
-            document.body.style.overflow = "hidden";
+      setTimeout(() => {
+        movePlayerSmoothly(treasure.re, treasure.im, 500);
 
-            const continueBtn = document.getElementById("continueBtn");
-            if (continueBtn) {
-              continueBtn.addEventListener("click", () => {
-                window.location.href = "index2.html";
-              });
-            }
+        setTimeout(() => {
+          const idx = treasures.indexOf(treasure);
+          if (idx !== -1) treasures.splice(idx, 1);
+          treasuresCollected++;
+          treasureClickEnabled = true;
+          waitingForAnswer = true;
+          closePopup();
+        }, 550);
+
+      }, 800);
+
+    } else {
+
+      setTimeout(() => {
+        feedbackMsg.textContent = "";
+        feedbackMsg.style.display = "none";
+
+        towerCompleted = true;
+        waitingForAnswer = false;
+        isPopupOpen = false;
+        treasureClickEnabled = false;
+
+        const levelCompletePopup = document.getElementById("levelCompletePopup");
+        if (levelCompletePopup) {
+          levelCompletePopup.style.display = "flex";
+          dimContent();
+          document.body.style.overflow = "hidden";
+
+          const continueBtn = document.getElementById("continueBtn");
+          if (continueBtn) {
+            continueBtn.addEventListener("click", () => {
+              window.location.href = "index2.html";
+            });
           }
-          }
+        }
+      }, 1200);
 
-      } else {
-        errorMsg.style.color = "red";
-        errorMsg.textContent = "Incorrect answer, try again!";
-      }
-      return;
     }
+
+  } else {
+    errorMsg.style.color = "red";
+    errorMsg.textContent = "Incorrect answer, try again!";
   }
+  return;
+}
+  }
+
 
 if (levelNumber === 2) {
   const rInputEl = document.getElementById("rInput");
@@ -216,6 +228,7 @@ function cancelAnswer() {
   if (levelNumber === 0) {
     waitingForAnswer = false;
   }
+
   closePopup();
 }
 
