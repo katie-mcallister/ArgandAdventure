@@ -50,7 +50,7 @@ if (levelNumber === 2) {
   currentCorrectTheta = theta;
 
   setQuestionText(
-    `What is the value of r and θ for this tornados location?`
+    `What is the value of √r and θ for this tornados location?`
   );
 
   const polarInputs = document.getElementById("polarInputs");
